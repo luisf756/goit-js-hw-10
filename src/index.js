@@ -1,38 +1,49 @@
 import './css/styles.css';
 
-const DEBOUNCE_DELAY = 300;
+import debounce from 'lodash.debounce';
+import Notiflix from 'notiflix'
 
-const fetchUsersBtn = document.querySelector(".btn");
-const userList = document.querySelector(".user-list");
+const DEBOUNCE_DELAY = 500;
 
-fetchUsersBtn.addEventListener("click", () => {
-  fetchUsers()
-    .then((users) => renderUserList(users))
-    .catch((error) => console.log(error));
-});
 
-function fetchUsers() {
-  return fetch(
-    "https://jsonplaceholder.typicode.com/users?_limit=7&_sort=name"
-  ).then((response) => {
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  });
-}
+const fetchCountryLi = document.querySelector('.country');
+const countryList = document.getElementById("search-box");
 
-function renderUserList(users) {
-  const markup = users
-    .map((user) => {
-      return `
-          <li>
-            <p><b>Name</b>: ${user.name}</p>
-            <p><b>Email</b>: ${user.email}</p>
-            <p><b>Company</b>: ${user.company.name}</p>
-          </li>
-      `;
-    })
-    .join("");
-  userList.innerHTML = markup;
-}
+// countryList.addEventListener("input",debounce(() => {
+//     const searchCountry = value.trim();
+//     // console.log(countryList.target.value.trim())
+//     fetchCountryes(searchCountry)
+//     .then((countrys) => renderCountryList(countrys))
+//     .catch((error) => console.log(error));
+//     // console.log(fetchCountryes())
+// }), DEBOUNCE_DELAY);
+
+// function fetchCountryes(countryName){
+//   return fetch(
+//     // `https://restcountries.com/v3.1/name/${countryName}?fields=name,capital,population,flags,languages`
+//     // `https://restcountries.com/v3.1/all?fields=name,capital,currencies`
+//   ).then((response) => {
+//     if (!response.ok) {
+//       throw new Error(response.status);
+//     }
+//     return response.json();
+//   });
+// }
+console.log(`hola desde nicecuando`)
+
+// function renderCountryList(countrys) {
+//   const markup = countrys
+//     .map((country) => {
+        
+//       return `
+//           <li>
+//             <p><b>Name</b>: ${country.name}</p>
+//             <p><b>Capital</b>: ${country.name}</p>
+//             <p><b>Flags</b>: ${country.name}</p>
+//             <p><b>Languages</b>: ${country.name}</p>
+//           </li>
+//       `;
+//     })
+//     .join("");
+//     fetchCountryLi.insertAdjacentHTML('beforeend', markup);
+// }
