@@ -3,47 +3,82 @@ import './css/styles.css';
 import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix'
 
-const DEBOUNCE_DELAY = 500;
+const DEBOUNCE_DELAY = 300;
 
 
-const fetchCountryLi = document.querySelector('.country');
-const countryList = document.getElementById("search-box");
+const fetchCountryLi = document.querySelector('.country-list');
+const fetchCountryInfo = document.querySelector('.country-info');
+const countryList = document.getElementById("search-box"); //caja de texto
 
-// countryList.addEventListener("input",debounce(() => {
-//     const searchCountry = value.trim();
-//     // console.log(countryList.target.value.trim())
-//     fetchCountryes(searchCountry)
-//     .then((countrys) => renderCountryList(countrys))
-//     .catch((error) => console.log(error));
-//     // console.log(fetchCountryes())
-// }), DEBOUNCE_DELAY);
+countryList.addEventListener("input",debounce(() => {
+     const searchCountry = countryList.value;//"colombia";
+     if (searchCountry !== '') { 
+        fetchCountryes(searchCountry)
+        .then((countrys) => renderCountryList(countrys))
+        .catch((error) => console.log(error));
+        // console.log()
+    }
 
-// function fetchCountryes(countryName){
-//   return fetch(
-//     // `https://restcountries.com/v3.1/name/${countryName}?fields=name,capital,population,flags,languages`
-//     // `https://restcountries.com/v3.1/all?fields=name,capital,currencies`
-//   ).then((response) => {
-//     if (!response.ok) {
-//       throw new Error(response.status);
-//     }
-//     return response.json();
-//   });
-// }
-console.log(`hola desde nicecuando`)
+}, DEBOUNCE_DELAY));
 
-// function renderCountryList(countrys) {
-//   const markup = countrys
-//     .map((country) => {
+function fetchCountryes(countryName){
+  return fetch(
+    `https://restcountries.com/v3.1/name/${countryName}?limit=10&fields=name,capital,population,flags,languages`
+    ).then((response) => {
+    if (!response.ok) {
+      throw new Error(response.status);
+    }
+    return response.json();
+  });
+}
+// console.log(`hola desde fechCountries`)
+
+function renderCountryList(countrys) {
+      fetchCountryLi.innerHTML = '';
+    if (countrys.length > 10) {
+        Notiflix.Notify.info('Se encontraron demasiadas coincidencias. Introduzca un nombre más específico.');
+    }
+    
+    if (countrys.length >= 2 && countrys.length <= 10) {
+        console.log(countrys.length)
+        const markup = countrys
+        .map((country) => {
+            
+        return `
+            <li class="country-info" >
+                <div class="country-img">
+                    <img src=${country.flags.png} alt="" width = 80px>
+                </div>
+                <div class="country-content">
+                    <h2>${country.name.common}</h2>
+                </div>
+            </li>
+        `;
+        })
+        .join("");
+        //fetchCountryLi.innerHTML = markup;
+        fetchCountryLi.insertAdjacentHTML('beforeend', markup);
+    }
+    if (countrys.length === 1) {
+        console.log(countrys.length)
+        const markup = countrys
+        .map((country) => {
+            
+        return `
+            <div class="img-text">
+                <img class="country-limg"src=${country.flags.png} width = 80px> 
+                <h2> ${country.name.common} </h2>
+            </div>
+            <p><b>Capital:</b> ${country.capital}</p>
+            <p><b>Population:</b> ${country.population}</p>
+            <p><b>Languages:</b> ${Object.values(country.languages)}</p>
+        `;
+        })
+        .join("");
         
-//       return `
-//           <li>
-//             <p><b>Name</b>: ${country.name}</p>
-//             <p><b>Capital</b>: ${country.name}</p>
-//             <p><b>Flags</b>: ${country.name}</p>
-//             <p><b>Languages</b>: ${country.name}</p>
-//           </li>
-//       `;
-//     })
-//     .join("");
-//     fetchCountryLi.insertAdjacentHTML('beforeend', markup);
-// }
+        //fetchCountryLi.insertAdjacentHTML('beforeend', markup);
+        fetchCountryInfo.innerHTML = markup;
+    }
+
+    
+}
