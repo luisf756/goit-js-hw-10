@@ -26,7 +26,9 @@ function fetchCountryes(countryName){
     `https://restcountries.com/v3.1/name/${countryName}?limit=10&fields=name,capital,population,flags,languages`
     ).then((response) => {
     if (!response.ok) {
+        Notiflix.Notify.warning('no se encuentra en base de datos.');
       throw new Error(response.status);
+      
     }
     return response.json();
   });
