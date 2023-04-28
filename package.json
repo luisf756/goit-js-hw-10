@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luisf756/goit-js-hw-10.git"
+    "url": "git+https://luisf756.github.io/goit-js-hw-10.git"
   },
   "keywords": [],
-  "author": "Alexander Repeta <alexander.repeta@gmail.com>",
+  "author": "Luis MG <luchof756@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/luisf756/oit-js-hw-10/issues"
+    "url": "https://github.com/luisf756/goit-js-hw-10/issues"
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8",
